@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papanoamarket - Tienda en línea</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-2">
+                    <a href="#" class="logo">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span>Papanoa<span class="text-warning">market</span></span>
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Buscar productos, marcas y más...">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="top-actions">
+                        <a href="#" class="action-btn" id="wishlistBtn">
+                            <i class="far fa-heart"></i>
+                            <span>Favoritos</span>
+                            <span class="count" id="wishlistCount">0</span>
+                        </a>
+                        <a href="#" class="action-btn" id="cartBtn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Carrito</span>
+                            <span class="count" id="cartCount">0</span>
+                        </a>
+                        <a href="#" class="action-btn" id="compareBtn">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Comparar</span>
+                            <span class="count" id="compareCount">0</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <div class="nav-menu">
+                <a href="#" class="nav-item active">Inicio</a>
+                <a href="#categorias" class="nav-item">Categorías</a>
+                <a href="#ofertas" class="nav-item text-danger">Ofertas del Día</a>
+                <a href="#nuevos" class="nav-item">Nuevos</a>
+                <a href="#mas-vendidos" class="nav-item">Más Vendidos</a>
+                <a href="#" class="nav-item">Ayuda</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Carousel -->
+    <section class="hero-carousel">
+        <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="banner banner-1">
+                        <div class="banner-content">
+                            <h2>iPhone 15 Pro</h2>
+                            <p>Hasta 20% de descuento + Envío gratis</p>
+                            <button class="btn-banner" onclick="filterByCategory('Electrónica')">Ver Ofertas</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="banner banner-2">
+                        <div class="banner-content">
+                            <h2>Tecnología Gamer</h2>
+                            <p>Todo para tu setup gaming</p>
+                            <button class="btn-banner" onclick="filterByCategory('Electrónica')">Comprar Ahora</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="banner banner-3">
+                        <div class="banner-content">
+                            <h2>Moda y Estilo</h2>
+                            <p>Nueva colección 2026</p>
+                            <button class="btn-banner" onclick="filterByCategory('Ropa')">Ver Colección</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Ofertas del Día -->
+    <section class="deals-section" id="ofertas">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-bolt text-warning me-2"></i>Ofertas del Día</h2>
+                <div class="countdown" id="countdownTimer">
+                    <span class="time-unit"><span id="hours">00</span><small>h</small></span>:
+                    <span class="time-unit"><span id="minutes">00</span><small>m</small></span>:
+                    <span class="time-unit"><span id="seconds">00</span><small>s</small></span>
+                </div>
+            </div>
+            <div class="deals-grid" id="dealsGrid">
+                <!-- Se llena dinámicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Categorías -->
+    <section class="categories-section" id="categorias">
+        <div class="container">
+            <h2 class="section-title">Categorías Populares</h2>
+            <div class="categories-grid">
+                <div class="category-card" onclick="filterByCategory('Electrónica')">
+                    <div class="category-icon"><i class="fas fa-laptop"></i></div>
+                    <span>Electrónica</span>
+                </div>
+                <div class="category-card" onclick="filterByCategory('Ropa')">
+                    <div class="category-icon"><i class="fas fa-tshirt"></i></div>
+                    <span>Ropa</span>
+                </div>
+                <div class="category-card" onclick="filterByCategory('Hogar')">
+                    <div class="category-icon"><i class="fas fa-couch"></i></div>
+                    <span>Hogar</span>
+                </div>
+                <div class="category-card" onclick="filterByCategory('Deportes')">
+                    <div class="category-icon"><i class="fas fa-football-ball"></i></div>
+                    <span>Deportes</span>
+                </div>
+                <div class="category-card" onclick="filterByCategory('Accesorios')">
+                    <div class="category-icon"><i class="fas fa-watch"></i></div>
+                    <span>Accesorios</span>
+                </div>
+                <div class="category-card" onclick="filterByCategory('Hogar')">
+                    <div class="category-icon"><i class="fas fa-blender"></i></div>
+                    <span>Hogar y Cocina</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="main-content" id="productos">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar Filters -->
+                <aside class="col-lg-3">
+                    <div class="filters-panel">
+                        <div class="filter-header">
+                            <h4><i class="fas fa-filter me-2"></i>Filtros</h4>
+                            <button class="btn-clear" onclick="clearAllFilters()">Limpiar todo</button>
+                        </div>
+
+                        <div class="filter-group">
+                            <h5>Categorías</h5>
+                            <div class="filter-list">
+                                <label class="filter-item">
+                                    <input type="checkbox" class="category-filter" value="Electrónica">
+                                    <span>Electrónica</span>
+                                    <span class="count">8</span>
+                                </label>
+                                <label class="filter-item">
+                                    <input type="checkbox" class="category-filter" value="Ropa">
+                                    <span>Ropa</span>
+                                    <span class="count">4</span>
+                                </label>
+                                <label class="filter-item">
+                                    <input type="checkbox" class="category-filter" value="Hogar">
+                                    <span>Hogar</span>
+                                    <span class="count">4</span>
+                                </label>
+                                <label class="filter-item">
+                                    <input type="checkbox" class="category-filter" value="Deportes">
+                                    <span>Deportes</span>
+                                    <span class="count">3</span>
+                                </label>
+                                <label class="filter-item">
+                                    <input type="checkbox" class="category-filter" value="Accesorios">
+                                    <span>Accesorios</span>
+                                    <span class="count">4</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h5>Precio</h5>
+                            <div class="price-range">
+                                <input type="number" id="minPrice" placeholder="Min" value="0">
+                                <input type="number" id="maxPrice" placeholder="Max" value="50000">
+                            </div>
+                            <input type="range" class="price-slider" id="priceSlider" min="0" max="50000" value="50000">
+                        </div>
+
+                        <div class="filter-group">
+                            <h5>Calificación</h5>
+                            <div class="rating-filter">
+                                <label class="rating-item">
+                                    <input type="radio" name="rating" value="4">
+                                    <span class="stars">⭐⭐⭐⭐</span>
+                                    <span>y más</span>
+                                </label>
+                                <label class="rating-item">
+                                    <input type="radio" name="rating" value="3">
+                                    <span class="stars">⭐⭐⭐</span>
+                                    <span>y más</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h5>Envío</h5>
+                            <label class="filter-item">
+                                <input type="checkbox" id="freeShipping">
+                                <span><i class="fas fa-truck text-success me-2"></i>Envío Gratis</span>
+                            </label>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Products Grid -->
+                <div class="col-lg-9">
+                    <div class="products-toolbar">
+                        <div class="toolbar-left">
+                            <h2 id="pageTitle">Todos los Productos</h2>
+                            <span id="productsCount" class="count-badge"></span>
+                        </div>
+                        <div class="toolbar-right">
+                            <select class="sort-select" id="sortSelect">
+                                <option value="relevancia">Relevancia</option>
+                                <option value="precio-asc">Menor Precio</option>
+                                <option value="precio-desc">Mayor Precio</option>
+                                <option value="nombre">Nombre A-Z</option>
+                                <option value="ventas">Más Vendidos</option>
+                            </select>
+                            <div class="view-toggle">
+                                <button class="view-btn active" onclick="changeView('grid')">
+                                    <i class="fas fa-th-large"></i>
+                                </button>
+                                <button class="view-btn" onclick="changeView('list')">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="products-grid" id="productsGrid">
+                        <!-- Loading skeleton -->
+                        <div class="skeleton-loader">
+                            <div class="skeleton-card"></div>
+                            <div class="skeleton-card"></div>
+                            <div class="skeleton-card"></div>
+                            <div class="skeleton-card"></div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <nav class="pagination-wrapper">
+                        <ul class="pagination" id="pagination">
+                            <!-- Se genera dinámicamente -->
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features-section">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-box">
+                    <i class="fas fa-truck"></i>
+                    <h4>Envío Gratis</h4>
+                    <p>En compras mayores a $999</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Compra Protegida</h4>
+                    <p>Garantía de devolución</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fas fa-credit-card"></i>
+                    <h4>Pago Seguro</h4>
+                    <p>Múltiples métodos de pago</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fas fa-headset"></i>
+                    <h4>Soporte 24/7</h4>
+                    <p>Atención al cliente</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>Sobre Nosotros</h4>
+                    <p>Papanoamarket es tu tienda en línea de confianza con los mejores productos y precios.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h4>Ayuda</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Preguntas Frecuentes</a></li>
+                        <li><a href="#">Envíos</a></li>
+                        <li><a href="#">Devoluciones</a></li>
+                        <li><a href="#">Términos y Condiciones</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h4>Contacto</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-phone me-2"></i>+52 55 1234 5678</li>
+                        <li><i class="fas fa-envelope me-2"></i>info@papanoamarket.com</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i>Ciudad de México</li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h4>Métodos de Pago</h4>
+                    <div class="payment-methods">
+                        <i class="fab fa-cc-visa"></i>
+                        <i class="fab fa-cc-mastercard"></i>
+                        <i class="fab fa-cc-amex"></i>
+                        <i class="fab fa-paypal"></i>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <p class="text-center">&copy; 2026 Papanoamarket. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Quick View Modal -->
+    <div class="modal fade" id="quickViewModal" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <button type="button" class="btn-close-modal" data-bs-dismiss="modal">&times;</button>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="product-gallery">
+                                <img id="qvImage" src="" alt="" class="main-image">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="product-info-modal">
+                                <span class="category-badge" id="qvCategory"></span>
+                                <h2 id="qvTitle"></h2>
+                                <div class="rating-reviews">
+                                    <span class="stars" id="qvRating"></span>
+                                    <span class="reviews-count">(128 reseñas)</span>
+                                </div>
+                                <div class="price-block">
+                                    <span class="current-price" id="qvPrice"></span>
+                                    <span class="old-price" id="qvOldPrice"></span>
+                                    <span class="discount-badge" id="qvDiscount"></span>
+                                </div>
+                                <p class="description" id="qvDescription"></p>
+                                
+                                <div class="quantity-selector">
+                                    <label>Cantidad:</label>
+                                    <div class="qty-box">
+                                        <button onclick="updateQty(-1)">-</button>
+                                        <input type="number" id="qvQuantity" value="1" min="1">
+                                        <button onclick="updateQty(1)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-actions">
+                                    <button class="btn-buy" id="qvBuyNow">
+                                        <i class="fas fa-bolt me-2"></i>Comprar Ahora
+                                    </button>
+                                    <button class="btn-cart" id="qvAddToCart">
+                                        <i class="fas fa-shopping-cart me-2"></i>Agregar al Carrito
+                                    </button>
+                                    <button class="btn-wishlist" id="qvWishlist">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                </div>
+
+                                <div class="product-meta">
+                                    <div class="meta-item">
+                                        <i class="fas fa-truck"></i>
+                                        <span>Envío gratis a todo el país</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="fas fa-undo"></i>
+                                        <span>30 días de garantía de devolución</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-cart me-2"></i>Tu Carrito</h3>
+            <button class="btn-close" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItemsSidebar"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotalSidebar">$0</span>
+            </div>
+            <button class="btn-checkout" onclick="checkout()">
+                Proceder al Pago <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+
+    <!-- Compare Modal -->
+    <div class="modal fade" id="compareModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Comparar Productos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="compare-grid" id="compareGrid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget">
+        <button class="chat-btn" onclick="toggleChat()">
+            <i class="fas fa-comments"></i>
+        </button>
+        <div class="chat-box" id="chatBox">
+            <div class="chat-header">
+                <h5>Soporte en Línea</h5>
+                <button onclick="toggleChat()">&times;</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                    <p>¡Hola! ¿En qué podemos ayudarte?</p>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
+                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
